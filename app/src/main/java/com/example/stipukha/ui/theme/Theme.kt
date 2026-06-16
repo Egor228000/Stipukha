@@ -22,7 +22,7 @@ private val DarkColorScheme = darkColorScheme(
 private val LightColorScheme = lightColorScheme(
     primary = Color(229,229,231), // Фон тест в кнопке //
     onPrimary = Color(245,245,247), // bottom bar карточка
-    tertiary = Color(0,1,1), // Текст
+    tertiary = Color(0,1,1), //Текст
 )
 
 @Composable
