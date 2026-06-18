@@ -13,6 +13,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.example.stipukha.ui.feature_main.MainScreen
 import com.example.stipukha.ui.feature_stats.StatsScreen
+import com.example.stipukha.ui.feture_add.AddScreen
 import kotlinx.serialization.Serializable
 
 
@@ -21,6 +22,10 @@ data object ScreenMain: NavKey
 
 @Serializable
 data object ScreenStats: NavKey
+
+
+@Serializable
+data object ScreenAdd: NavKey
 
 
 
@@ -40,6 +45,9 @@ fun NavDisplayNavigation(backStack: SnapshotStateList<NavKey>, paddingValues: Pa
             }
             entry<ScreenStats> {
                 StatsScreen()
+            }
+            entry<ScreenAdd> {
+                AddScreen()
             }
 
         },
