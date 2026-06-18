@@ -1,4 +1,4 @@
-package com.example.stipukha.ui.feture_add
+package com.example.stipukha.ui.feature_add
 
 import androidx.compose.runtime.Composable
 
