@@ -3,15 +3,19 @@ package com.example.stipukha.ui.navigation
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,9 +46,11 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -85,7 +91,8 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
                         .fillMaxWidth(),
                     colors = CardDefaults.cardColors(
                         MaterialTheme.colorScheme.onPrimary
-                    )
+                    ),
+                    shape = RoundedCornerShape(30.dp)
                 ) {
                     Column(
                         modifier = Modifier
@@ -124,6 +131,8 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
                             fontWeight = FontWeight.W500,
 
                         )
+                        Spacer(modifier = Modifier.height(8.dp))
+
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth(),
@@ -137,16 +146,153 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
                                 ),
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(20))
-                                    .height(100.dp)
+                                    .height(100.dp),
+                                textStyle = TextStyle(
+                                            fontSize = 64.sp,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.4f)
+                                )
 
                             )
                         }
+                        Spacer(modifier = Modifier.height(36.dp))
 
+                        Text(
+                            "До какой даты нужно растянуть?",
+                            color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f),
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.W500,
+
+                            )
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Column(
+
+                        ) {
+                            Row() {
+                                Card(
+                                    modifier = Modifier
+                                        .weight(0.5f)
+                                ) {
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(16.dp),
+                                        horizontalAlignment = Alignment.CenterHorizontally
+
+
+                                    ) {
+                                        Text(
+                                            "1 неделя",
+                                            fontSize = 24.sp,
+                                            fontWeight = FontWeight.W700
+                                        )
+                                        Text(
+                                            "До 15 Окт"
+                                        )
+                                    }
+
+                                }
+                                Spacer(modifier = Modifier.width(16.dp))
+                                Card(
+                                    modifier = Modifier
+                                        .weight(0.5f)
+                                ) {
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(16.dp),
+                                        horizontalAlignment = Alignment.CenterHorizontally
+
+                                    ) {
+                                        Text(
+                                            "1 месяц",
+                                            fontSize = 24.sp,
+                                            fontWeight = FontWeight.W700
+
+                                        )
+                                        Text(
+                                            "До 15 Ноя"
+
+                                        )
+                                    }
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                ) {
+                                    Icon(
+                                        painterResource(
+                                            R.drawable.home
+                                        ),
+                                        null
+
+                                    )
+                                    Text(
+                                        "Выбрать другую дату",
+                                        color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f),
+                                        fontSize = 18.sp,
+                                        fontWeight = FontWeight.W500,
+
+                                        )
+                                    Icon(
+                                        painterResource(
+                                            R.drawable.home
+                                        ),
+                                        null
+
+                                    )
+                                }
+
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(64.dp))
+
+                        Button(
+                            onClick = {},
+                            modifier = Modifier
+                                .height(70.dp)
+                                .fillMaxWidth(),
+                            colors = ButtonDefaults.buttonColors(
+                                MaterialTheme.colorScheme.tertiary
+                            )
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    "Погнали",
+                                    color = MaterialTheme.colorScheme.onPrimary,
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.W500,
+
+                                    )
+                                Spacer(modifier = Modifier.width(16.dp))
+
+                                Icon(
+                                   painterResource(
+                                       R.drawable.arrow_narrow_left
+                                   ) ,
+                                    modifier = Modifier
+                                        .size(32.dp)
+                                        .scale(
+                                            scaleY = 1f,
+                                            scaleX = -1f
+                                        ),
+                                    contentDescription = null
+                                )
+                            }
+                        }
 
                     }
-
                 }
-
             }
         }
     ) {
