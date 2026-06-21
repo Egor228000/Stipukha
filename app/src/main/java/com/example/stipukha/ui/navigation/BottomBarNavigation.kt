@@ -1,6 +1,9 @@
 package com.example.stipukha.ui.navigation
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -47,6 +50,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorProducer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -58,7 +63,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation3.runtime.NavKey
 import com.example.stipukha.R
+import java.time.LocalDate
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("ConfigurationScreenWidthHeight")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,10 +77,18 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
     val screenHeight = configuration.screenHeightDp.dp
 
     var sumMoney by remember { mutableStateOf("0") }
+    val tertiaryColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f)
 
+    val colorProducer = ColorProducer { tertiaryColor }
     LaunchedEffect(Unit) {
         scaffoldState.bottomSheetState.expand()
     }
+
+    val currentDate = LocalDate.now()
+
+    var selectedBoolean by remember { mutableStateOf(0) }
+
+
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         sheetPeekHeight = screenHeight,
@@ -107,7 +122,7 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
                                 .fillMaxWidth()
                         ) {
                             Text(
-                                "С чего начнем?",
+                                stringResource(R.string.onboarding_title),
                                 color = MaterialTheme.colorScheme.tertiary,
                                 fontSize = 36.sp,
                                 fontWeight = FontWeight.W700,
@@ -115,7 +130,7 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
                                 )
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
-                                "Давай настроим твой бюджетный лимит",
+                                stringResource(R.string.onboarding_subtitle),
                                 color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f),
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.W400,
@@ -126,40 +141,58 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
                         Spacer(modifier = Modifier.height(36.dp))
 
                         Text(
-                            "Сколько у тебя сейчас денег?",
+                            stringResource(R.string.budget_question),
                             color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.W500,
 
-                        )
+                            )
                         Spacer(modifier = Modifier.height(8.dp))
 
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary)
-                        ) {
-                            TextField(
-                                sumMoney,
-                                {sumMoney = it},
-                                keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Number
-                                ),
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(20))
-                                    .height(100.dp),
-                                textStyle = TextStyle(
-                                            fontSize = 64.sp,
-                                    fontWeight = FontWeight.ExtraBold,
-                                    color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.4f)
-                                )
 
-                            )
-                        }
+                        TextField(
+                            sumMoney,
+                            { sumMoney = it },
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Number
+                            ),
+
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(20))
+                                .height(100.dp),
+                            textStyle = TextStyle(
+                                fontSize = 64.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f),
+                                textAlign = TextAlign.End
+                            ),
+                            leadingIcon = {
+                                Icon(
+                                    painterResource(
+                                        R.drawable.ruble_sign_svgrepo_com,
+
+                                        ),
+                                    tint = colorProducer,
+                                    null,
+                                    modifier = Modifier
+                                        .padding(start = 16.dp)
+                                        .size(50.dp)
+                                )
+                            },
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = MaterialTheme.colorScheme.primary,
+                                unfocusedContainerColor = MaterialTheme.colorScheme.primary,
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent
+
+                            ),
+                            singleLine = true
+                        )
+
                         Spacer(modifier = Modifier.height(36.dp))
 
                         Text(
-                            "До какой даты нужно растянуть?",
+                            stringResource(R.string.deadline_question),
                             color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.W500,
@@ -171,59 +204,44 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
 
                         ) {
                             Row() {
-                                Card(
+                                CardDate(
+                                    R.string.month_1,
+                                    selectedBoolean,
                                     modifier = Modifier
-                                        .weight(0.5f)
-                                ) {
-                                    Column(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(16.dp),
-                                        horizontalAlignment = Alignment.CenterHorizontally
+                                        .clickable{
+                                            selectedBoolean = 2
+                                        }
+                                        .weight(0.5f),
+                                    currentDate.plusWeeks(1),
 
+                                    )
 
-                                    ) {
-                                        Text(
-                                            "1 неделя",
-                                            fontSize = 24.sp,
-                                            fontWeight = FontWeight.W700
-                                        )
-                                        Text(
-                                            "До 15 Окт"
-                                        )
-                                    }
-
-                                }
                                 Spacer(modifier = Modifier.width(16.dp))
-                                Card(
+                                CardDate(
+                                    R.string.month_1,
+                                    selectedBoolean,
                                     modifier = Modifier
-                                        .weight(0.5f)
-                                ) {
-                                    Column(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(16.dp),
-                                        horizontalAlignment = Alignment.CenterHorizontally
+                                        .clickable{
+                                            selectedBoolean = 1
+                                        }
+                                        .weight(0.5f),
+                                    currentDate.plusMonths(1)
 
-                                    ) {
-                                        Text(
-                                            "1 месяц",
-                                            fontSize = 24.sp,
-                                            fontWeight = FontWeight.W700
+                                )
 
-                                        )
-                                        Text(
-                                            "До 15 Ноя"
-
-                                        )
-                                    }
-                                }
                             }
                             Spacer(modifier = Modifier.height(16.dp))
 
                             Card(
                                 modifier = Modifier
-                                    .fillMaxWidth()
+                                    .clickable {
+
+                                    }
+                                    .fillMaxWidth(),
+                                colors = CardDefaults.cardColors(
+                                    MaterialTheme.colorScheme.primary,
+                                    contentColor = MaterialTheme.colorScheme.tertiary
+                                )
                             ) {
                                 Row(
                                     modifier = Modifier
@@ -231,23 +249,28 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
                                 ) {
                                     Icon(
                                         painterResource(
-                                            R.drawable.home
+                                            R.drawable.calendar_month
                                         ),
                                         null
 
                                     )
+                                    Spacer(modifier = Modifier.width(8.dp))
                                     Text(
-                                        "Выбрать другую дату",
+                                        stringResource(R.string.pick_other_date),
                                         color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f),
                                         fontSize = 18.sp,
                                         fontWeight = FontWeight.W500,
 
                                         )
+                                    Spacer(modifier = Modifier.width(40.dp))
+
                                     Icon(
                                         painterResource(
-                                            R.drawable.home
+                                            R.drawable.arrow_narrow_left
                                         ),
-                                        null
+                                        modifier = Modifier
+                                            .scale(scaleY = 1f, scaleX = -1f),
+                                        contentDescription = null
 
                                     )
                                 }
@@ -269,7 +292,7 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    "Погнали",
+                                    stringResource(R.string.lets_go),
                                     color = MaterialTheme.colorScheme.onPrimary,
                                     fontSize = 24.sp,
                                     fontWeight = FontWeight.W500,
@@ -278,9 +301,9 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
                                 Spacer(modifier = Modifier.width(16.dp))
 
                                 Icon(
-                                   painterResource(
-                                       R.drawable.arrow_narrow_left
-                                   ) ,
+                                    painterResource(
+                                        R.drawable.arrow_narrow_left
+                                    ),
                                     modifier = Modifier
                                         .size(32.dp)
                                         .scale(
@@ -382,4 +405,58 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
             }
         )
     }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun CardDate(
+    textDate: Int,
+    selectedBoolean: Int,
+    modifier: Modifier = Modifier,
+    dateMouthOfWeek: LocalDate,
+) {
+
+        Card(
+            modifier = modifier,
+            colors = CardDefaults.cardColors(
+                if (selectedBoolean == 0) MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f) else MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.tertiary
+            )
+
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+
+            ) {
+                Text(
+                    stringResource(textDate),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.W700
+
+                )
+                val mouthInt = when (dateMouthOfWeek.monthValue) {
+                    1 -> "Янв"
+                    2 -> "Фев"
+                    3 -> "Мар"
+                    4 -> "Апр"
+                    5 -> "Мая"
+                    6 -> "Июн"
+                    7 -> "Июл"
+                    8 -> "Авг"
+                    9 -> "Сен"
+                    10 -> "Окт"
+                    11 -> "Ноя"
+                    12 -> "Дек"
+                    else -> {}
+                }
+                Text(
+                    "До ${dateMouthOfWeek.dayOfMonth} ${mouthInt}"
+
+
+                )
+            }
+        }
 }
