@@ -6,6 +6,14 @@
     <string name="replenish">Пополнил</string>
     <string name="spent">Потратил</string>
 
+    <string name="onboarding_title">С чего начнем?</string>
+    <string name="onboarding_subtitle">Давай настроим твой бюджетный лимит</string>
+    <string name="budget_question">Сколько у тебя сейчас денег?</string>
+    <string name="deadline_question">До какой даты нужно растянуть?</string>
+    <string name="week_1">1 неделя</string>
+    <string name="month_1">1 месяц</string>
+    <string name="pick_other_date">Выбрать другую дату</string>
+    <string name="lets_go">Погнали</string>
 
 
 </resources>
