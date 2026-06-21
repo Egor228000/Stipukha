@@ -81,6 +81,7 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
         sheetContent = {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .padding(16.dp)
                     .fillMaxSize()
