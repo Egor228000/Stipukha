@@ -205,11 +205,11 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
                         ) {
                             Row() {
                                 CardDate(
-                                    R.string.month_1,
-                                    selectedBoolean,
+                                    R.string.week_1,
+                                    selectedBoolean = selectedBoolean == 0,
                                     modifier = Modifier
                                         .clickable{
-                                            selectedBoolean = 2
+                                            selectedBoolean = 0
                                         }
                                         .weight(0.5f),
                                     currentDate.plusWeeks(1),
@@ -219,7 +219,7 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
                                 Spacer(modifier = Modifier.width(16.dp))
                                 CardDate(
                                     R.string.month_1,
-                                    selectedBoolean,
+                                    selectedBoolean = selectedBoolean == 1,
                                     modifier = Modifier
                                         .clickable{
                                             selectedBoolean = 1
@@ -411,7 +411,7 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
 @Composable
 fun CardDate(
     textDate: Int,
-    selectedBoolean: Int,
+    selectedBoolean: Boolean,
     modifier: Modifier = Modifier,
     dateMouthOfWeek: LocalDate,
 ) {
@@ -419,7 +419,7 @@ fun CardDate(
         Card(
             modifier = modifier,
             colors = CardDefaults.cardColors(
-                if (selectedBoolean == 0) MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f) else MaterialTheme.colorScheme.primary,
+                if (selectedBoolean) MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f) else MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.tertiary
             )
 
