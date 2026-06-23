@@ -31,6 +31,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -83,367 +84,94 @@ import java.util.Calendar
 @Composable
 fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
     var selectedIndex by rememberSaveable() { mutableIntStateOf(1) }
-    val scaffoldState = rememberBottomSheetScaffoldState()
-    val configuration = LocalConfiguration.current
-    val screenHeight = configuration.screenHeightDp.dp
 
-    var sumMoney by remember { mutableStateOf("0") }
-    val tertiaryColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f)
 
-    val colorProducer = ColorProducer { tertiaryColor }
-    LaunchedEffect(Unit) {
-        scaffoldState.bottomSheetState.expand()
-    }
-
-    val currentDate = LocalDate.now()
-    var selectedBoolean by remember { mutableStateOf(0) }
-
-    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
-    var formattedDate by remember {
-        mutableStateOf(selectedDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")))
-    }
-    var showCustomPicker by remember { mutableStateOf(false) }
-    BottomSheetScaffold(
-        scaffoldState = scaffoldState,
-        sheetPeekHeight = screenHeight,
-        sheetContainerColor = MaterialTheme.colorScheme.primary,
-        sheetContent = {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxSize()
-            ) {
-                Card(
-                    modifier = Modifier
-
-                        .fillMaxWidth(),
-                    colors = CardDefaults.cardColors(
-                        MaterialTheme.colorScheme.onPrimary
-                    ),
-                    shape = RoundedCornerShape(30.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .padding(16.dp)
-
-                    ) {
-
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            Text(
-                                stringResource(R.string.onboarding_title),
-                                color = MaterialTheme.colorScheme.tertiary,
-                                fontSize = 36.sp,
-                                fontWeight = FontWeight.W700,
-
-                                )
-                            Spacer(modifier = Modifier.height(16.dp))
-                            Text(
-                                stringResource(R.string.onboarding_subtitle),
-                                color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f),
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.W400,
-                                textAlign = TextAlign.Center
-
-                            )
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.primary,
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = when (selectedIndex) {
+                            1 -> stringResource(R.string.main)
+                            2 -> stringResource(R.string.statistics)
+                            else -> stringResource(R.string.capital)
                         }
-                        Spacer(modifier = Modifier.height(36.dp))
-
-                        Text(
-                            stringResource(R.string.budget_question),
-                            color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f),
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.W500,
-
-                            )
-                        Spacer(modifier = Modifier.height(8.dp))
-
-
-                        TextField(
-                            sumMoney,
-                            { sumMoney = it },
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType = KeyboardType.Number
-                            ),
-
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(20))
-                                .height(100.dp),
-                            textStyle = TextStyle(
-                                fontSize = 64.sp,
-                                fontWeight = FontWeight.ExtraBold,
-                                color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f),
-                                textAlign = TextAlign.End
-                            ),
-                            leadingIcon = {
-                                Icon(
-                                    painterResource(
-                                        R.drawable.ruble_sign_svgrepo_com,
-
-                                        ),
-                                    tint = colorProducer,
-                                    null,
-                                    modifier = Modifier
-                                        .padding(start = 16.dp)
-                                        .size(50.dp)
-                                )
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    MaterialTheme.colorScheme.primary
+                ),
+                actions = {
+                    if (selectedIndex == 1) {
+                        IconButton(
+                            onClick = {
+                                backStack.add(ScreenAdd)
+                                selectedIndex = 3
                             },
-                            colors = TextFieldDefaults.colors(
-                                focusedContainerColor = MaterialTheme.colorScheme.primary,
-                                unfocusedContainerColor = MaterialTheme.colorScheme.primary,
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent
-
-                            ),
-                            singleLine = true
-                        )
-
-                        Spacer(modifier = Modifier.height(36.dp))
-
-                        Text(
-                            stringResource(R.string.deadline_question),
-                            color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f),
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.W500,
-
-                            )
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        Column(
-
+                            colors = IconButtonDefaults.iconButtonColors(MaterialTheme.colorScheme.primary)
                         ) {
-                            Row() {
-                                if (formattedDate.toString() == currentDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))) {
-
-
-                                    CardDate(
-                                        R.string.week_1,
-                                        selectedBoolean = selectedBoolean == 0,
-                                        modifier = Modifier
-                                            .clickable {
-                                                selectedBoolean = 0
-                                            }
-                                            .weight(0.5f),
-                                        currentDate.plusWeeks(1),
-
-                                        )
-
-                                    Spacer(modifier = Modifier.width(16.dp))
-                                    CardDate(
-                                        R.string.month_1,
-                                        selectedBoolean = selectedBoolean == 1,
-                                        modifier = Modifier
-                                            .clickable {
-                                                selectedBoolean = 1
-                                            }
-                                            .weight(0.5f),
-                                        currentDate.plusMonths(1)
-
-                                    )
-                                }else {
-                                    Text(
-                                        "До ${formattedDate}",
-                                        fontWeight = FontWeight.W500,
-                                        fontSize = 25.sp,
-                                        color = MaterialTheme.colorScheme.tertiary
-                                    )
-                                }
-
-                            }
-
-                            Spacer(modifier = Modifier.height(16.dp))
-
-                            Card(
-                                modifier = Modifier
-                                    .clickable {
-                                        showCustomPicker = true
-                                    }
-                                    .fillMaxWidth(),
-                                colors = CardDefaults.cardColors(
-                                    MaterialTheme.colorScheme.primary,
-                                    contentColor = MaterialTheme.colorScheme.tertiary
-                                )
-                            ) {
-                                Row(
-                                    modifier = Modifier
-                                        .padding(16.dp)
-                                ) {
-                                    Icon(
-                                        painterResource(
-                                            R.drawable.calendar_month
-                                        ),
-                                        null
-
-                                    )
-                                    Spacer(modifier = Modifier.width(8.dp))
-                                    Text(
-                                        stringResource(R.string.pick_other_date),
-                                        color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f),
-                                        fontSize = 18.sp,
-                                        fontWeight = FontWeight.W500,
-
-                                        )
-                                    Spacer(modifier = Modifier.width(40.dp))
-
-                                    Icon(
-                                        painterResource(
-                                            R.drawable.arrow_narrow_left
-                                        ),
-                                        modifier = Modifier
-                                            .scale(scaleY = 1f, scaleX = -1f),
-                                        contentDescription = null
-
-                                    )
-                                }
-
-                            }
-                        }
-                        Spacer(modifier = Modifier.height(64.dp))
-
-                        Button(
-                            onClick = {},
-                            modifier = Modifier
-                                .height(70.dp)
-                                .fillMaxWidth(),
-                            colors = ButtonDefaults.buttonColors(
-                                MaterialTheme.colorScheme.tertiary
+                            Icon(
+                                painter = painterResource(R.drawable.settings),
+                                null
                             )
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    stringResource(R.string.lets_go),
-                                    color = MaterialTheme.colorScheme.onPrimary,
-                                    fontSize = 24.sp,
-                                    fontWeight = FontWeight.W500,
-
-                                    )
-                                Spacer(modifier = Modifier.width(16.dp))
-
-                                Icon(
-                                    painterResource(
-                                        R.drawable.arrow_narrow_left
-                                    ),
-                                    modifier = Modifier
-                                        .size(32.dp)
-                                        .scale(
-                                            scaleY = 1f,
-                                            scaleX = -1f
-                                        ),
-                                    contentDescription = null
-                                )
-                            }
                         }
+                    } else {
+
 
                     }
-                }
-            }
-            if (showCustomPicker) {
-                CustomDatePickerDialog(
-                    onDismiss = { showCustomPicker = false },
-                    onDateSelected = { date ->
-                        selectedDate = date
-                        formattedDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-                        showCustomPicker = false
-                    }
+
+                },
+
                 )
+        },
+        bottomBar = {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier
+            ) {
+                NavigationBarItem(
+                    selected = selectedIndex == 1,
+                    onClick = {
+                        selectedIndex = 1
+                        backStack.add(ScreenMain)
+                    },
+                    icon = { Icon(painter = painterResource(R.drawable.home), null) },
+                    label = { Text(stringResource(R.string.main)) },
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = MaterialTheme.colorScheme.tertiary,
+                        selectedTextColor = MaterialTheme.colorScheme.tertiary,
+                        indicatorColor = MaterialTheme.colorScheme.primary,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary,
+                        unselectedTextColor = MaterialTheme.colorScheme.primary
+                    )
+                )
+                NavigationBarItem(
+                    selected = selectedIndex == 2,
+                    onClick = {
+                        selectedIndex = 2
+                        backStack.add(ScreenStats)
+
+                    },
+                    icon = { Icon(painter = painterResource(R.drawable.chart_bar), null) },
+                    label = { Text(stringResource(R.string.statistics)) },
+                    colors = NavigationBarItemDefaults.colors(
+                        selectedIconColor = MaterialTheme.colorScheme.tertiary,
+                        selectedTextColor = MaterialTheme.colorScheme.tertiary,
+                        indicatorColor = MaterialTheme.colorScheme.primary,
+                        unselectedIconColor = MaterialTheme.colorScheme.primary,
+                        unselectedTextColor = MaterialTheme.colorScheme.primary
+                    )
+                )
+
             }
+        },
+        content = { paddingValues ->
+            NavDisplayNavigation(backStack, paddingValues)
         }
-
-    ) { paddingValues ->
-        Scaffold(
-            modifier = Modifier.padding(paddingValues),
-            containerColor = MaterialTheme.colorScheme.primary,
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = when (selectedIndex) {
-                                1 -> stringResource(R.string.main)
-                                2 -> stringResource(R.string.statistics)
-                                else -> stringResource(R.string.capital)
-                            }
-                        )
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        MaterialTheme.colorScheme.primary
-                    ),
-                    actions = {
-                        if (selectedIndex == 1) {
-                            IconButton(
-                                onClick = {
-                                    backStack.add(ScreenAdd)
-                                    selectedIndex = 3
-                                },
-                                colors = IconButtonDefaults.iconButtonColors(MaterialTheme.colorScheme.primary)
-                            ) {
-                                Icon(
-                                    painter = painterResource(R.drawable.settings),
-                                    null
-                                )
-                            }
-                        } else {
-
-
-                        }
-
-                    },
-
-                    )
-            },
-            bottomBar = {
-                NavigationBar(
-                    containerColor = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier
-                ) {
-                    NavigationBarItem(
-                        selected = selectedIndex == 1,
-                        onClick = {
-                            selectedIndex = 1
-                            backStack.add(ScreenMain)
-                        },
-                        icon = { Icon(painter = painterResource(R.drawable.home), null) },
-                        label = { Text(stringResource(R.string.main)) },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = MaterialTheme.colorScheme.tertiary,
-                            selectedTextColor = MaterialTheme.colorScheme.tertiary,
-                            indicatorColor = MaterialTheme.colorScheme.primary,
-                            unselectedIconColor = MaterialTheme.colorScheme.primary,
-                            unselectedTextColor = MaterialTheme.colorScheme.primary
-                        )
-                    )
-                    NavigationBarItem(
-                        selected = selectedIndex == 2,
-                        onClick = {
-                            selectedIndex = 2
-                            backStack.add(ScreenStats)
-
-                        },
-                        icon = { Icon(painter = painterResource(R.drawable.chart_bar), null) },
-                        label = { Text(stringResource(R.string.statistics)) },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = MaterialTheme.colorScheme.tertiary,
-                            selectedTextColor = MaterialTheme.colorScheme.tertiary,
-                            indicatorColor = MaterialTheme.colorScheme.primary,
-                            unselectedIconColor = MaterialTheme.colorScheme.primary,
-                            unselectedTextColor = MaterialTheme.colorScheme.primary
-                        )
-                    )
-
-                }
-            },
-            content = { paddingValues ->
-                NavDisplayNavigation(backStack, paddingValues)
-            }
-        )
-    }
+    )
 }
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -505,47 +233,47 @@ fun CardDate(
     dateMouthOfWeek: LocalDate,
 ) {
 
-        Card(
-            modifier = modifier,
-            colors = CardDefaults.cardColors(
-                if (selectedBoolean) MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f) else MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.tertiary
-            )
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(
+            if (selectedBoolean) MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f) else MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.tertiary
+        )
+
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
 
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Text(
+                stringResource(textDate),
+                fontSize = 24.sp,
+                fontWeight = FontWeight.W700
 
-            ) {
-                Text(
-                    stringResource(textDate),
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.W700
-
-                )
-                val mouthInt = when (dateMouthOfWeek.monthValue) {
-                    1 -> "Янв"
-                    2 -> "Фев"
-                    3 -> "Мар"
-                    4 -> "Апр"
-                    5 -> "Мая"
-                    6 -> "Июн"
-                    7 -> "Июл"
-                    8 -> "Авг"
-                    9 -> "Сен"
-                    10 -> "Окт"
-                    11 -> "Ноя"
-                    12 -> "Дек"
-                    else -> {}
-                }
-                Text(
-                    "До ${dateMouthOfWeek.dayOfMonth} ${mouthInt}"
-
-
-                )
+            )
+            val mouthInt = when (dateMouthOfWeek.monthValue) {
+                1 -> "Янв"
+                2 -> "Фев"
+                3 -> "Мар"
+                4 -> "Апр"
+                5 -> "Мая"
+                6 -> "Июн"
+                7 -> "Июл"
+                8 -> "Авг"
+                9 -> "Сен"
+                10 -> "Окт"
+                11 -> "Ноя"
+                12 -> "Дек"
+                else -> {}
             }
+            Text(
+                "До ${dateMouthOfWeek.dayOfMonth} ${mouthInt}"
+
+
+            )
         }
+    }
 }
