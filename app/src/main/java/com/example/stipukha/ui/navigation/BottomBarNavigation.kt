@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.BottomSheetScaffold
@@ -21,6 +23,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,11 +36,13 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -53,6 +60,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorProducer
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -63,7 +71,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation3.runtime.NavKey
 import com.example.stipukha.R
+import java.time.Instant
 import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("ConfigurationScreenWidthHeight")
@@ -72,7 +84,6 @@ import java.time.LocalDate
 fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
     var selectedIndex by rememberSaveable() { mutableIntStateOf(1) }
     val scaffoldState = rememberBottomSheetScaffoldState()
-    val scope = rememberCoroutineScope()
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
 
@@ -85,10 +96,13 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
     }
 
     val currentDate = LocalDate.now()
-
     var selectedBoolean by remember { mutableStateOf(0) }
 
-
+    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
+    var formattedDate by remember {
+        mutableStateOf(selectedDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+    }
+    var showCustomPicker by remember { mutableStateOf(false) }
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         sheetPeekHeight = screenHeight,
@@ -204,38 +218,50 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
 
                         ) {
                             Row() {
-                                CardDate(
-                                    R.string.week_1,
-                                    selectedBoolean = selectedBoolean == 0,
-                                    modifier = Modifier
-                                        .clickable{
-                                            selectedBoolean = 0
-                                        }
-                                        .weight(0.5f),
-                                    currentDate.plusWeeks(1),
+                                if (formattedDate.toString() == currentDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))) {
+
+
+                                    CardDate(
+                                        R.string.week_1,
+                                        selectedBoolean = selectedBoolean == 0,
+                                        modifier = Modifier
+                                            .clickable {
+                                                selectedBoolean = 0
+                                            }
+                                            .weight(0.5f),
+                                        currentDate.plusWeeks(1),
+
+                                        )
+
+                                    Spacer(modifier = Modifier.width(16.dp))
+                                    CardDate(
+                                        R.string.month_1,
+                                        selectedBoolean = selectedBoolean == 1,
+                                        modifier = Modifier
+                                            .clickable {
+                                                selectedBoolean = 1
+                                            }
+                                            .weight(0.5f),
+                                        currentDate.plusMonths(1)
 
                                     )
-
-                                Spacer(modifier = Modifier.width(16.dp))
-                                CardDate(
-                                    R.string.month_1,
-                                    selectedBoolean = selectedBoolean == 1,
-                                    modifier = Modifier
-                                        .clickable{
-                                            selectedBoolean = 1
-                                        }
-                                        .weight(0.5f),
-                                    currentDate.plusMonths(1)
-
-                                )
+                                }else {
+                                    Text(
+                                        "До ${formattedDate}",
+                                        fontWeight = FontWeight.W500,
+                                        fontSize = 25.sp,
+                                        color = MaterialTheme.colorScheme.tertiary
+                                    )
+                                }
 
                             }
+
                             Spacer(modifier = Modifier.height(16.dp))
 
                             Card(
                                 modifier = Modifier
                                     .clickable {
-
+                                        showCustomPicker = true
                                     }
                                     .fillMaxWidth(),
                                 colors = CardDefaults.cardColors(
@@ -318,9 +344,21 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
                     }
                 }
             }
+            if (showCustomPicker) {
+                CustomDatePickerDialog(
+                    onDismiss = { showCustomPicker = false },
+                    onDateSelected = { date ->
+                        selectedDate = date
+                        formattedDate = date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+                        showCustomPicker = false
+                    }
+                )
+            }
         }
-    ) {
+
+    ) { paddingValues ->
         Scaffold(
+            modifier = Modifier.padding(paddingValues),
             containerColor = MaterialTheme.colorScheme.primary,
             topBar = {
                 TopAppBar(
@@ -406,6 +444,57 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
         )
     }
 }
+
+@RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CustomDatePickerDialog(
+    onDateSelected: (LocalDate) -> Unit,
+    onDismiss: () -> Unit
+) {
+    val datePickerState = rememberDatePickerState()
+
+    DatePickerDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    datePickerState.selectedDateMillis?.let { millis ->
+                        val date = Instant.ofEpochMilli(millis)
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate()
+                        onDateSelected(date)
+                    }
+
+                }
+            ) {
+                Text(
+                    "Выбрать",
+                    color = MaterialTheme.colorScheme.tertiary
+                )
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(
+                    "Отмена",
+                    color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.5f)
+                )
+            }
+        }
+    ) {
+        DatePicker(
+            state = datePickerState,
+            colors = DatePickerDefaults.colors(
+                selectedDayContainerColor = MaterialTheme.colorScheme.tertiary,
+                selectedDayContentColor = MaterialTheme.colorScheme.primary,
+                todayDateBorderColor = MaterialTheme.colorScheme.tertiary,
+                dayContentColor = MaterialTheme.colorScheme.tertiary,
+            )
+        )
+    }
+}
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
