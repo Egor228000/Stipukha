@@ -2,7 +2,7 @@
     <string name="app_name">Stipukha</string>
     <string name="main">Главная</string>
     <string name="statistics">Статистика</string>
-    <string name="capital">Капитал</string>
+    <string name="capital">Управление бюджетом</string>
     <string name="replenish">Пополнил</string>
     <string name="spent">Потратил</string>
 
