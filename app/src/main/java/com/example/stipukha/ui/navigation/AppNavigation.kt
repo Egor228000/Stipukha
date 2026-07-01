@@ -1,5 +1,7 @@
 package com.example.stipukha.ui.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -30,8 +32,14 @@ data object ScreenAdd: NavKey
 
 
 
+@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
 @Composable
-fun NavDisplayNavigation(backStack: SnapshotStateList<NavKey>, paddingValues: PaddingValues) {
+fun NavDisplayNavigation(
+    backStack: SnapshotStateList<NavKey>,
+    paddingValues: PaddingValues,
+    selectedIndex: Int,
+    onSelectedIndexChange: (Int) -> Unit
+) {
     NavDisplay(
         modifier = Modifier.padding(paddingValues).padding(16.dp),
         entryDecorators = listOf(
@@ -47,7 +55,7 @@ fun NavDisplayNavigation(backStack: SnapshotStateList<NavKey>, paddingValues: Pa
                 StatsScreen()
             }
             entry<ScreenAdd> {
-                AddScreen()
+                AddScreen(onSelectedIndexChange, backStack)
             }
 
         },
