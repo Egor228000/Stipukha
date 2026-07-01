@@ -1,6 +1,7 @@
 package com.example.stipukha.ui.feature_add
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.navigation3.runtime.NavKey
@@ -11,6 +12,11 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
     BackHandler(true) {
         backStack.add(ScreenMain)
         onSelectedIndexChange(1)
+
+    }
+    Column(
+
+    ) {
 
     }
 
