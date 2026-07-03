@@ -39,6 +39,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.stipukha.R
+import com.example.stipukha.ui.feature_stats.components.ExpenseStructureCard
+import com.example.stipukha.ui.feature_stats.components.PeriodSelector
+import com.example.stipukha.ui.feature_stats.components.QuickStatsCard
+import com.example.stipukha.ui.feature_stats.components.SavingsCard
 
 @Composable
 fun StatsScreen() {
@@ -74,227 +78,12 @@ fun StatsScreen() {
     }
 }
 
-@Composable
-fun PeriodSelector(selectedPeriod: String, onPeriodSelected: (String) -> Unit) {
-    Row(
-        modifier = Modifier
-            .clip(RoundedCornerShape(12.dp))
-            .padding(4.dp)
-    ) {
-        val periods = listOf("Неделя", "Месяц")
-        periods.forEach { period ->
-            val isSelected = period == selectedPeriod
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
-                .background(if (isSelected) MaterialTheme.colorScheme.onPrimary else Color.Transparent)
-                    .clickable { onPeriodSelected(period) }
-                    .padding(horizontal = 16.dp, vertical = 6.dp),
-             contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = period,
-                    fontSize = 16.sp,
-                    fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal,
-                    color = MaterialTheme.colorScheme.tertiary
-                )
-            }
-        }
-    }
-}
 
-@Composable
-fun SavingsCard(amount: String, trend: String) {
-    Card(
-        shape = RoundedCornerShape(24.dp),
-       colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column(
-            modifier = Modifier.padding(20.dp)
-        ) {
-            Text(text = "Сэкономлено", fontSize = 16.sp, color = MaterialTheme.colorScheme.tertiary)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = amount, fontSize = 36.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.tertiary)
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primary)
-                    .padding(horizontal = 8.dp, vertical = 4.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "↗ $trend",
-                    fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.tertiary,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-        }
-    }
-}
 
-@Composable
-fun QuickStatsCard() {
-    Card(
-        shape = RoundedCornerShape(24.dp),
-       colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            QuickStatsRow(
-                icon = R.drawable.receipt,
-                title = "Средний чек",
-                value = "420 ₽"
-            )
-            HorizontalDivider(
-                modifier = Modifier.padding(vertical = 12.dp),
-                thickness = DividerDefaults.Thickness,
-                color = DividerDefaults.color
-            )
-            QuickStatsRow(
-                icon = R.drawable.chart_bar,
-                title = "Экономный день",
-                value = "Вторник"
-            )
-            Divider(modifier = Modifier.padding(vertical = 12.dp))
-            QuickStatsRow(icon = R.drawable.calendar_month, title = "Пик расходов", value = "Суббота")
-        }
-    }
-}
 
-@Composable
-fun QuickStatsRow(icon: Int, title: String, value: String) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(CircleShape),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                painter = painterResource(icon),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier
-                    .align(Alignment.CenterStart),
-            )
-            Text(text = title, fontSize = 14.sp, color = MaterialTheme.colorScheme.tertiary,    modifier = Modifier
-                .padding(horizontal = 32.dp)
-                .align(Alignment.CenterStart))
-            Text(text = value, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.tertiary
-                ,    modifier = Modifier
-                    .align(Alignment.CenterEnd))
-        }
-        Spacer(modifier = Modifier.width(8.dp))
 
-    }
-}
 
-@Composable
-fun ExpenseStructureCard() {
-    Card(
-        shape = RoundedCornerShape(24.dp),
-       colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Column(modifier = Modifier.padding(20.dp)) {
-            Text(
-                text = "Структура расходов",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-               color =  MaterialTheme.colorScheme.tertiary
-            )
-            Spacer(modifier = Modifier.height(16.dp))
 
-            ExpenseProgressRow(
-                icon = R.drawable.tools_kitchen_2,
-                category = "Еда",
-                amount = "12,400 ₽",
-                percentage = 0.6f,
-                percentText = "60%",
-                color = Color.Black
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            ExpenseProgressRow(
-                icon =  R.drawable.car,
-                category = "Транспорт",
-                amount = "4,100 ₽",
-                percentage = 0.2f,
-                percentText = "20%",
-                color = Color(0xFF703EE5)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            ExpenseProgressRow(
-                icon =  R.drawable.device_gamepad_2,
-                category = "Развлечение",
-                amount = "4,100 ₽",
-                percentage = 0.2f,
-                percentText = "20%",
-                color = Color(0xFF2B59A6)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            ExpenseProgressRow(
-                icon =  R.drawable.dental,
-                category = "Здоровье",
-                amount = "4,100 ₽",
-                percentage = 0.2f,
-                percentText = "20%",
-                color = Color(0xFF812BA6)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            ExpenseProgressRow(
-                icon =  R.drawable.sketching,
-                category = "Другое",
-                amount = "4,100 ₽",
-                percentage = 0.2f,
-                percentText = "20%",
-                color = Color(0xFF68A62B)
-            )
-        }
-    }
-}
 
-@Composable
-fun ExpenseProgressRow(
-    icon: Int,
-    category: String,
-    amount: String,
-    percentage: Float,
-    percentText: String,
-    color: Color
-) {
-    Column {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                painter = painterResource(icon),
-                contentDescription = null,
-                modifier = Modifier.size(18.dp),
-                tint =  MaterialTheme.colorScheme.tertiary
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = category, fontSize = 14.sp, color = MaterialTheme.colorScheme.tertiary)
-            Spacer(modifier = Modifier.weight(1f))
-            Text(text = amount, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.tertiary)
-            Spacer(modifier = Modifier.width(6.dp))
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        LinearProgressIndicator(
-            progress = { percentage },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(8.dp)
-                .clip(CircleShape),
-            color = color,
-         trackColor = MaterialTheme.colorScheme.primary,
-        )
-    }
-}
+
 
