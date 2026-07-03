@@ -5,6 +5,12 @@
     <string name="capital">Управление бюджетом</string>
     <string name="replenish">Пополнил</string>
     <string name="spent">Потратил</string>
+    <string name="eat">Еда</string>
+    <string name="transport">Транспорт</string>
+    <string name="fan">Развлечение</string>
+    <string name="healt">Здоровье</string>
+    <string name="other">Другое</string>
+
 
     <string name="onboarding_title">С чего начнем?</string>
     <string name="onboarding_subtitle">Давай настроим твой бюджетный лимит</string>
