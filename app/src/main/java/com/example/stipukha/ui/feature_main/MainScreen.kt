@@ -35,11 +35,11 @@ import com.example.stipukha.ui.feature_main.components.CategoryCard
 import com.example.stipukha.ui.feature_main.components.CustomKeyboardNumber
 
 val categoryMap = mapOf(
-    "Еда" to R.drawable.tools_kitchen_2,
-    "Транспорт" to R.drawable.car,
-    "Развлечение" to R.drawable.device_gamepad_2,
-    "Здоровье" to R.drawable.dental,
-    "Другое" to R.drawable.sketching
+    R.string.eat to R.drawable.tools_kitchen_2,
+    R.string.transport to R.drawable.car,
+    R.string.fan to R.drawable.device_gamepad_2,
+    R.string.healt to R.drawable.dental,
+    R.string.other to R.drawable.sketching
 )
 val keys = listOf(
     "1", "2", "3",
@@ -82,8 +82,8 @@ fun MainScreen() {
                     CategoryCard(
                         textButton = categoryName,
                         iconButton = iconRes,
-                        isSelected = categoryName == selectedCategory,
-                        onClick = { selectedCategory = categoryName }
+                        isSelected = categoryName.toString() == selectedCategory,
+                        onClick = { selectedCategory = categoryName.toString() }
                     )
                 }
             }

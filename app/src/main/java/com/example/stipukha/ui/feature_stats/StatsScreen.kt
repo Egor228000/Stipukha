@@ -19,7 +19,6 @@ import com.example.stipukha.ui.feature_stats.components.SavingsCard
 fun StatsScreen() {
     var selectedPeriod by remember { mutableStateOf("Месяц") }
 
-
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -27,8 +26,6 @@ fun StatsScreen() {
     ) {
 
         item {
-
-
             PeriodSelector(
                 selectedPeriod = selectedPeriod,
                 onPeriodSelected = { selectedPeriod = it }

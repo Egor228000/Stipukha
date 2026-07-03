@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.stipukha.R
-import com.example.stipukha.ui.feature_stats.QuickStatsRow
 
 @Composable
 fun QuickStatsCard() {

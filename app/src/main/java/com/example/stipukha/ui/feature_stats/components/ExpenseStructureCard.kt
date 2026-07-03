@@ -17,7 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.stipukha.R
-import com.example.stipukha.ui.feature_stats.ExpenseProgressRow
 
 @Composable
 fun ExpenseStructureCard() {
@@ -37,46 +36,41 @@ fun ExpenseStructureCard() {
 
             ExpenseProgressRow(
                 icon = R.drawable.tools_kitchen_2,
-                category = "Еда",
+                category = R.string.eat,
                 amount = "12,400 ₽",
                 percentage = 0.6f,
-                percentText = "60%",
                 color = Color.Black
             )
             Spacer(modifier = Modifier.height(16.dp))
             ExpenseProgressRow(
                 icon =  R.drawable.car,
-                category = "Транспорт",
+                category = R.string.transport,
                 amount = "4,100 ₽",
                 percentage = 0.2f,
-                percentText = "20%",
                 color = Color(0xFF703EE5)
             )
             Spacer(modifier = Modifier.height(16.dp))
             ExpenseProgressRow(
                 icon =  R.drawable.device_gamepad_2,
-                category = "Развлечение",
+                category = R.string.fan,
                 amount = "4,100 ₽",
                 percentage = 0.2f,
-                percentText = "20%",
                 color = Color(0xFF2B59A6)
             )
             Spacer(modifier = Modifier.height(16.dp))
             ExpenseProgressRow(
                 icon =  R.drawable.dental,
-                category = "Здоровье",
+                category = R.string.healt,
                 amount = "4,100 ₽",
                 percentage = 0.2f,
-                percentText = "20%",
                 color = Color(0xFF812BA6)
             )
             Spacer(modifier = Modifier.height(16.dp))
             ExpenseProgressRow(
                 icon =  R.drawable.sketching,
-                category = "Другое",
+                category = R.string.other,
                 amount = "4,100 ₽",
                 percentage = 0.2f,
-                percentText = "20%",
                 color = Color(0xFF68A62B)
             )
         }

@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,10 +26,9 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun ExpenseProgressRow(
     icon: Int,
-    category: String,
+    category: Int,
     amount: String,
     percentage: Float,
-    percentText: String,
     color: Color
 ) {
     Column {
@@ -43,7 +43,7 @@ fun ExpenseProgressRow(
                 tint =  MaterialTheme.colorScheme.tertiary
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = category, fontSize = 14.sp, color = MaterialTheme.colorScheme.tertiary)
+            Text(text = stringResource(category), fontSize = 14.sp, color = MaterialTheme.colorScheme.tertiary)
             Spacer(modifier = Modifier.weight(1f))
             Text(text = amount, fontSize = 14.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.tertiary)
             Spacer(modifier = Modifier.width(6.dp))
