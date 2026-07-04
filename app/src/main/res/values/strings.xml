@@ -32,8 +32,9 @@
     <string name="algorithms_description">Алгоритмы Stipukha следят за вашими расходами.</string>
     <string name="danger_zone">Опасная зона</string>
     <string name="reset_warning">Сброс удалит все текущие расходы и настройки периода. Это действие нельзя отменить.</string>
-    <string name="reset">Сброс</string>
     <string name="reset_budget">Сбросить бюджет</string>
+    <string name="period_do">Период до</string>
+
 
 
 </resources>
