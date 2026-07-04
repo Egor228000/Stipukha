@@ -22,4 +22,18 @@
     <string name="lets_go">Погнали</string>
 
 
+    <string name="current_balance">Текущий баланс</string>
+    <string name="total_available">ВСЕГО ДОСТУПНО</string>
+    <string name="balance_auto_update">Баланс обновляется автоматически после добавления расходов.</string>
+    <string name="calendar">Календарь</string>
+    <string name="change">Изменить</string>
+    <string name="protection">Защита</string>
+    <string name="budget_under_control">Бюджет под контролем</string>
+    <string name="algorithms_description">Алгоритмы Stipukha следят за вашими расходами.</string>
+    <string name="danger_zone">Опасная зона</string>
+    <string name="reset_warning">Сброс удалит все текущие расходы и настройки периода. Это действие нельзя отменить.</string>
+    <string name="reset">Сброс</string>
+    <string name="reset_budget">Сбросить бюджет</string>
+
+
 </resources>
