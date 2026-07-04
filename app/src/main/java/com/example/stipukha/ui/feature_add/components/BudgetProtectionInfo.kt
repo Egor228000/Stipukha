@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,13 +48,13 @@ fun BudgetProtectionInfo() {
         Spacer(modifier = Modifier.width(12.dp))
         Column {
             Text(
-                text = "Бюджет под контролем",
+                text = stringResource(R.string.budget_under_control),
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.tertiary
             )
             Text(
-                text = "Алгоритмы Stipukha следят за вашими расходами.",
+                text = stringResource(R.string.algorithms_description),
                 color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
                 fontSize = 14.sp
             )

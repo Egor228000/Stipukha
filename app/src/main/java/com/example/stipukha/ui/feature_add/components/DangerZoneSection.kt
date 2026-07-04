@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,14 +29,14 @@ import com.example.stipukha.R
 @Composable
 fun DangerZoneSection() {
     Text(
-        text = "Опасная зона",
+        text = stringResource(R.string.danger_zone),
         color = Color(0xFFE53935),
         fontWeight = FontWeight.SemiBold,
         fontSize = 16.sp,
         modifier = Modifier.padding(bottom = 8.dp)
     )
     Text(
-        text = "Сброс удалит все текущие расходы и настройки периода. Это действие нельзя отменить.",
+        text = stringResource(R.string.reset_warning),
         color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
         fontSize = 14.sp,
         lineHeight = 20.sp,
@@ -60,7 +61,7 @@ fun DangerZoneSection() {
                 contentDescription = "Сброс"
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Сбросить бюджет", fontSize = 16.sp, fontWeight = FontWeight.Medium)
+            Text(stringResource(R.string.reset_budget), fontSize = 16.sp, fontWeight = FontWeight.Medium)
         }
     }
 }

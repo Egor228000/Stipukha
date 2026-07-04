@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,7 +32,7 @@ import com.example.stipukha.R
 @Composable
 fun PeriodCard() {
     Text(
-        text = "Период до",
+        text = stringResource(R.string.period_do),
         color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
         fontSize = 16.sp,
         modifier = Modifier.padding(bottom = 8.dp)
@@ -84,7 +85,7 @@ fun PeriodCard() {
                 ),
                 contentPadding = PaddingValues(horizontal = 16.dp)
             ) {
-                Text("Изменить", fontSize = 14.sp)
+                Text(stringResource(R.string.change), fontSize = 14.sp)
             }
         }
     }

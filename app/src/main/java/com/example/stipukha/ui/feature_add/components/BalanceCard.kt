@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,7 +32,7 @@ import com.example.stipukha.R
 @Composable
 fun BalanceCard() {
     Text(
-        text = "Текущий баланс",
+        text = stringResource(R.string.current_balance),
         color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
         fontSize = 16.sp,
         modifier = Modifier.padding(bottom = 8.dp)
@@ -44,7 +45,7 @@ fun BalanceCard() {
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             Text(
-                text = "ВСЕГО ДОСТУПНО",
+                text = stringResource(R.string.total_available),
                 color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
@@ -90,7 +91,7 @@ fun BalanceCard() {
             )
 
             Text(
-                text = "Баланс обновляется автоматически после добавления расходов.",
+                text = stringResource(R.string.balance_auto_update),
                 color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
                 fontSize = 14.sp,
                 modifier = Modifier.padding(top = 12.dp),
