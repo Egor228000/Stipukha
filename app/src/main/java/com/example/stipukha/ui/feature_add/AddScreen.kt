@@ -33,8 +33,7 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
     }
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
@@ -43,12 +42,12 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
                 Text(
                     text = "Текущий баланс",
                     color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
                 Card(
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -56,7 +55,7 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
                         Text(
                             text = "ВСЕГО ДОСТУПНО",
                             color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
-                            fontSize = 11.sp,
+                            fontSize = 14.sp,
                             fontWeight = FontWeight.Bold
                         )
 
@@ -77,11 +76,11 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
                                 modifier = Modifier
                                     .size(42.dp)
                                     .background(MaterialTheme.colorScheme.tertiary, CircleShape)
-                                    .clickable { /* Редактировать */ },
+                                    .clickable {  },
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
-                                    painter = painterResource(R.drawable.receipt),
+                                    painter = painterResource(R.drawable.pencil),
                                     contentDescription = "Edit",
                                     tint = MaterialTheme.colorScheme.onPrimary,
                                     modifier = Modifier.size(18.dp)
@@ -96,13 +95,13 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
                                 .height(6.dp)
                                 .clip(CircleShape),
                             color = MaterialTheme.colorScheme.tertiary,
-                            trackColor = MaterialTheme.colorScheme.onPrimary,
+                            trackColor = MaterialTheme.colorScheme.primary,
                         )
 
                         Text(
                             text = "Баланс обновляется автоматически после добавления расходов.",
                             color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
-                            fontSize = 12.sp,
+                            fontSize = 14.sp,
                             modifier = Modifier.padding(top = 12.dp),
                             lineHeight = 16.sp
                         )
@@ -116,12 +115,12 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
                 Text(
                     text = "Период до",
                     color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
                 Card(
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
                     shape = RoundedCornerShape(20.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -143,7 +142,7 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
-                                    painter = painterResource(R.drawable.receipt),
+                                    painter = painterResource(R.drawable.calendar_month),
                                     contentDescription = "Календарь",
                                     tint = MaterialTheme.colorScheme.tertiary
                                 )
@@ -178,7 +177,7 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(20.dp))
+                    .background(MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(20.dp))
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -189,7 +188,7 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.receipt),
+                        painter = painterResource(R.drawable.shield_check),
                         contentDescription = "Защита",
                         tint = MaterialTheme.colorScheme.tertiary
                     )
@@ -199,13 +198,13 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
                     Text(
                         text = "Бюджет под контролем",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 15.sp,
+                        fontSize = 16.sp,
                         color = MaterialTheme.colorScheme.tertiary
                     )
                     Text(
                         text = "Алгоритмы Stipukha следят за вашими расходами.",
                         color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
-                        fontSize = 13.sp
+                        fontSize = 14.sp
                     )
                 }
             }
@@ -213,7 +212,7 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
 
         item {
             HorizontalDivider(
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.tertiary,
                 thickness = 1.dp,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
@@ -225,7 +224,7 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
                     text = "Опасная зона",
                     color = Color(0xFFE53935),
                     fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
                 Text(
@@ -250,7 +249,7 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.receipt),
+                            painter = painterResource(R.drawable.trash_x),
                             contentDescription = "Сброс"
                         )
                         Spacer(modifier = Modifier.width(8.dp))
