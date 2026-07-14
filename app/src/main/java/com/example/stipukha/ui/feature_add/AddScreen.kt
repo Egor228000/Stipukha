@@ -28,7 +28,7 @@ fun AddScreen(onSelectedIndexChange: (Int) -> Unit, backStack: SnapshotStateList
     }
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize() ,
+            .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
