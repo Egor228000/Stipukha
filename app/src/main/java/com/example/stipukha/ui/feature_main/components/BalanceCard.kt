@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun BalanceCard(
-    balance: Int,
-    balanceAll: Int,
+    balance: Long,
+    balanceAll: Long,
     days: Int
 ) {
     Card(
@@ -47,7 +47,7 @@ fun BalanceCard(
             Spacer(modifier = Modifier.height(8.dp))
             // Счет
             Text(
-                balance.toString(),
+                text = "${balance} ₽",
                 color = MaterialTheme.colorScheme.tertiary,
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 60.sp
@@ -69,7 +69,7 @@ fun BalanceCard(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        "Всего ${balanceAll} Р * Осталось: ${days} дня",
+                        "Всего ${balanceAll} ₽ * Осталось: ${days} дн.",
                         color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
                         fontWeight = FontWeight.W500,
                         fontSize = 16.sp

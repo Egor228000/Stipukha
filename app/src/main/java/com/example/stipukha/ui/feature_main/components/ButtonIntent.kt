@@ -14,11 +14,12 @@ fun ButtonIntent(
     textButton: Int,
     modifier: Modifier = Modifier,
     colorsButton: Color,
-    colorText: Color
+    colorText: Color,
+    onClick: () -> Unit = {}
 ) {
     Button(
-        onClick = {},
-        colors = ButtonDefaults.buttonColors(colorsButton),
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(containerColor = colorsButton),
         modifier = modifier
     ) {
         Text(

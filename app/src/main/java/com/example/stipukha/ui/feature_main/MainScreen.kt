@@ -12,16 +12,15 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -33,6 +32,7 @@ import com.example.stipukha.ui.feature_main.components.BasicAlertDialogCustom
 import com.example.stipukha.ui.feature_main.components.ButtonIntent
 import com.example.stipukha.ui.feature_main.components.CategoryCard
 import com.example.stipukha.ui.feature_main.components.CustomKeyboardNumber
+import com.example.stipukha.ui.feature_main.mvi.MainIntent
 
 val categoryMap = mapOf(
     R.string.eat to R.drawable.tools_kitchen_2,
@@ -47,48 +47,46 @@ val keys = listOf(
     "7", "8", "9",
     ".", "0", "backspace"
 )
+
 @SuppressLint("ConfigurationScreenWidthHeight")
 @OptIn(ExperimentalMaterial3Api::class)
-@RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun MainScreen() {
+fun MainScreen(viewModel: MainViewModel) {
+    val state by viewModel.state.collectAsState()
 
-    var sum = remember { mutableStateOf("0") }
-    var selectedCategory by remember { mutableStateOf("Еда") }
-
-    if (false) {
-
-        BasicAlertDialogCustom()
-
+    if (state.isOnboardingRequired) {
+        BasicAlertDialogCustom(
+            onConfirm = { amount, date ->
+                viewModel.handleIntent(MainIntent.CompleteOnboarding(amount * 100, date))
+            }
+        )
     }
+
     LazyColumn(
-        modifier = Modifier
-
-            .fillMaxSize()
-
+        modifier = Modifier.fillMaxSize()
     ) {
         item {
             BalanceCard(
-                350,
-                12000,
-                24
+                balance = state.dailyLimit / 100,
+                balanceAll = state.balance / 100,
+                days = state.days
             )
         }
         item {
             Row(
                 modifier = Modifier.horizontalScroll(rememberScrollState())
             ) {
-                categoryMap.forEach { (categoryName, iconRes) ->
+                categoryMap.forEach { (categoryResId, iconRes) ->
                     CategoryCard(
-                        textButton = categoryName,
+                        textButton = categoryResId,
                         iconButton = iconRes,
-                        isSelected = categoryName.toString() == selectedCategory,
-                        onClick = { selectedCategory = categoryName.toString() }
+                        isSelected = categoryResId == state.selectedCategory,
+                        onClick = { viewModel.handleIntent(MainIntent.SelectCategory(categoryResId)) }
                     )
                 }
             }
             Spacer(modifier = Modifier.height(32.dp))
-
         }
         item {
             Column(
@@ -100,7 +98,7 @@ fun MainScreen() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = sum.value.take(21),
+                        text = state.inputAmount.take(21),
                         color = MaterialTheme.colorScheme.tertiary,
                         fontWeight = FontWeight.Bold,
                         fontSize = 32.sp
@@ -109,14 +107,17 @@ fun MainScreen() {
             }
         }
         item {
-            CustomKeyboardNumber(sum)
+            CustomKeyboardNumber(
+                currentAmount = state.inputAmount,
+                onAmountChange = { viewModel.handleIntent(MainIntent.UpdateInputAmount(it)) }
+            )
         }
         item {
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
-
                 ButtonIntent(
                     R.string.replenish,
                     modifier = Modifier
@@ -124,7 +125,8 @@ fun MainScreen() {
                         .fillMaxWidth(0.48f)
                         .align(Alignment.BottomStart),
                     colorsButton = MaterialTheme.colorScheme.onPrimary,
-                    MaterialTheme.colorScheme.tertiary
+                    colorText = MaterialTheme.colorScheme.tertiary,
+                    onClick = { viewModel.handleIntent(MainIntent.ReplenishBalance) }
                 )
                 ButtonIntent(
                     R.string.spent,
@@ -133,16 +135,10 @@ fun MainScreen() {
                         .fillMaxWidth(0.48f)
                         .align(Alignment.BottomEnd),
                     colorsButton = MaterialTheme.colorScheme.tertiary,
-                    MaterialTheme.colorScheme.onPrimary
-
+                    colorText = MaterialTheme.colorScheme.onPrimary,
+                    onClick = { viewModel.handleIntent(MainIntent.AddExpense) }
                 )
             }
         }
     }
 }
-
-
-
-
-
-

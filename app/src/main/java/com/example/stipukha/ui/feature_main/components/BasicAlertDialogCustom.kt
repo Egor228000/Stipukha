@@ -54,7 +54,9 @@ import java.time.format.DateTimeFormatter
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BasicAlertDialogCustom() {
+fun BasicAlertDialogCustom(
+    onConfirm: (Long, LocalDate) -> Unit
+) {
     val tertiaryColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f)
     var sumMoney by remember { mutableStateOf("0") }
 
@@ -68,15 +70,20 @@ fun BasicAlertDialogCustom() {
     }
     var showCustomPicker by remember { mutableStateOf(false) }
 
+    // Helper to get the deadline date based on selection or custom picker
+    val finalDeadline = if (formattedDate != currentDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))) {
+        selectedDate
+    } else {
+        if (selectedBoolean == 0) currentDate.plusWeeks(1) else currentDate.plusMonths(1)
+    }
+
     BasicAlertDialog(
-        onDismissRequest = { true },
+        onDismissRequest = { }, // Onboarding usually shouldn't be dismissable without completing
         modifier = Modifier.fillMaxSize(),
         properties = DialogProperties(
             usePlatformDefaultWidth = false
         ),
         content = {
-
-
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
@@ -86,7 +93,6 @@ fun BasicAlertDialogCustom() {
             ) {
                 Card(
                     modifier = Modifier
-
                         .fillMaxWidth(),
                     colors = CardDefaults.cardColors(
                         MaterialTheme.colorScheme.onPrimary
@@ -96,9 +102,7 @@ fun BasicAlertDialogCustom() {
                     Column(
                         modifier = Modifier
                             .padding(16.dp)
-
                     ) {
-
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
@@ -109,8 +113,7 @@ fun BasicAlertDialogCustom() {
                                 color = MaterialTheme.colorScheme.tertiary,
                                 fontSize = 36.sp,
                                 fontWeight = FontWeight.W700,
-
-                                )
+                            )
                             Spacer(modifier = Modifier.height(16.dp))
                             Text(
                                 stringResource(R.string.onboarding_subtitle),
@@ -118,7 +121,6 @@ fun BasicAlertDialogCustom() {
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.W400,
                                 textAlign = TextAlign.Center
-
                             )
                         }
                         Spacer(modifier = Modifier.height(36.dp))
@@ -128,10 +130,8 @@ fun BasicAlertDialogCustom() {
                             color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.W500,
-
-                            )
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
-
 
                         TextField(
                             sumMoney,
@@ -139,24 +139,21 @@ fun BasicAlertDialogCustom() {
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Number
                             ),
-
                             modifier = Modifier
                                 .clip(RoundedCornerShape(20))
-                                .height(100.dp),
+                                .height(100.dp)
+                                .fillMaxWidth(),
                             textStyle = TextStyle(
                                 fontSize = 64.sp,
                                 fontWeight = FontWeight.ExtraBold,
-                                color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f),
+                                color = MaterialTheme.colorScheme.tertiary,
                                 textAlign = TextAlign.End
                             ),
                             leadingIcon = {
                                 Icon(
-                                    painterResource(
-                                        R.drawable.ruble_sign_svgrepo_com,
-
-                                        ),
-                                    tint = colorProducer,
-                                    null,
+                                    painterResource(R.drawable.ruble_sign_svgrepo_com),
+                                    tint = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f),
+                                    contentDescription = null,
                                     modifier = Modifier
                                         .padding(start = 16.dp)
                                         .size(50.dp)
@@ -167,7 +164,6 @@ fun BasicAlertDialogCustom() {
                                 unfocusedContainerColor = MaterialTheme.colorScheme.primary,
                                 focusedIndicatorColor = Color.Transparent,
                                 unfocusedIndicatorColor = Color.Transparent
-
                             ),
                             singleLine = true
                         )
@@ -179,64 +175,45 @@ fun BasicAlertDialogCustom() {
                             color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.W500,
-
-                            )
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
 
-                        Column(
-
-                        ) {
-                            Row() {
-                                if (formattedDate.toString() == currentDate.format(
-                                        DateTimeFormatter.ofPattern(
-                                            "dd.MM.yyyy"
-                                        )
-                                    )
-                                ) {
-
-
+                        Column {
+                            Row {
+                                if (formattedDate == currentDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))) {
                                     CardDate(
                                         R.string.week_1,
                                         selectedBoolean = selectedBoolean == 0,
                                         modifier = Modifier
-                                            .clickable {
-                                                selectedBoolean = 0
-                                            }
+                                            .clickable { selectedBoolean = 0 }
                                             .weight(0.5f),
                                         currentDate.plusWeeks(1),
-
-                                        )
+                                    )
 
                                     Spacer(modifier = Modifier.width(16.dp))
                                     CardDate(
                                         R.string.month_1,
                                         selectedBoolean = selectedBoolean == 1,
                                         modifier = Modifier
-                                            .clickable {
-                                                selectedBoolean = 1
-                                            }
+                                            .clickable { selectedBoolean = 1 }
                                             .weight(0.5f),
                                         currentDate.plusMonths(1)
-
                                     )
                                 } else {
                                     Text(
-                                        "До ${formattedDate}",
+                                        "До $formattedDate",
                                         fontWeight = FontWeight.W500,
                                         fontSize = 25.sp,
                                         color = MaterialTheme.colorScheme.tertiary
                                     )
                                 }
-
                             }
 
                             Spacer(modifier = Modifier.height(16.dp))
 
                             Card(
                                 modifier = Modifier
-                                    .clickable {
-                                        showCustomPicker = true
-                                    }
+                                    .clickable { showCustomPicker = true }
                                     .fillMaxWidth(),
                                 colors = CardDefaults.cardColors(
                                     MaterialTheme.colorScheme.primary,
@@ -244,15 +221,12 @@ fun BasicAlertDialogCustom() {
                                 )
                             ) {
                                 Row(
-                                    modifier = Modifier
-                                        .padding(16.dp)
+                                    modifier = Modifier.padding(16.dp),
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Icon(
-                                        painterResource(
-                                            R.drawable.calendar_month
-                                        ),
+                                        painterResource(R.drawable.calendar_month),
                                         null
-
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text(
@@ -260,27 +234,23 @@ fun BasicAlertDialogCustom() {
                                         color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.7f),
                                         fontSize = 18.sp,
                                         fontWeight = FontWeight.W500,
-
-                                        )
-                                    Spacer(modifier = Modifier.width(40.dp))
-
+                                    )
+                                    Spacer(modifier = Modifier.weight(1f))
                                     Icon(
-                                        painterResource(
-                                            R.drawable.arrow_narrow_left
-                                        ),
-                                        modifier = Modifier
-                                            .scale(scaleY = 1f, scaleX = -1f),
+                                        painterResource(R.drawable.arrow_narrow_left),
+                                        modifier = Modifier.scale(scaleY = 1f, scaleX = -1f),
                                         contentDescription = null
-
                                     )
                                 }
-
                             }
                         }
                         Spacer(modifier = Modifier.height(64.dp))
 
                         Button(
-                            onClick = {},
+                            onClick = {
+                                val amount = sumMoney.toLongOrNull() ?: 0L
+                                onConfirm(amount, finalDeadline)
+                            },
                             modifier = Modifier
                                 .height(70.dp)
                                 .fillMaxWidth(),
@@ -296,25 +266,18 @@ fun BasicAlertDialogCustom() {
                                     color = MaterialTheme.colorScheme.onPrimary,
                                     fontSize = 24.sp,
                                     fontWeight = FontWeight.W500,
-
-                                    )
+                                )
                                 Spacer(modifier = Modifier.width(16.dp))
 
                                 Icon(
-                                    painterResource(
-                                        R.drawable.arrow_narrow_left
-                                    ),
+                                    painterResource(R.drawable.arrow_narrow_left),
                                     modifier = Modifier
                                         .size(32.dp)
-                                        .scale(
-                                            scaleY = 1f,
-                                            scaleX = -1f
-                                        ),
+                                        .scale(scaleY = 1f, scaleX = -1f),
                                     contentDescription = null
                                 )
                             }
                         }
-
                     }
                 }
             }

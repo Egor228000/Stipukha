@@ -16,7 +16,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,7 +27,10 @@ import com.example.stipukha.R
 import com.example.stipukha.ui.feature_main.keys
 
 @Composable
-fun CustomKeyboardNumber(sum: MutableState<String>) {
+fun CustomKeyboardNumber(
+    currentAmount: String,
+    onAmountChange: (String) -> Unit
+) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -47,20 +49,18 @@ fun CustomKeyboardNumber(sum: MutableState<String>) {
                     .background(MaterialTheme.colorScheme.onPrimary)
                     .clickable {
                         if (key == "backspace") {
-                            if (sum.value.isNotEmpty()) {
-                                sum.value = sum.value.dropLast(1)
-                                if (sum.value.isEmpty()) sum.value = "0"
+                            if (currentAmount.isNotEmpty()) {
+                                val newVal = currentAmount.dropLast(1)
+                                onAmountChange(if (newVal.isEmpty()) "0" else newVal)
                             }
                         } else {
-                            if (sum.value.length > 20) {
-
-
-                            } else {
-                                if (sum.value == "0" && key != ".") {
-                                    sum.value = key
+                            if (currentAmount.length < 20) {
+                                val newVal = if (currentAmount == "0" && key != ".") {
+                                    key
                                 } else {
-                                    sum.value += key
+                                    currentAmount + key
                                 }
+                                onAmountChange(newVal)
                             }
                         }
                     }
