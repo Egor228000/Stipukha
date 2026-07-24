@@ -30,4 +30,8 @@ class BudgetRepositoryImpl(
     override suspend fun setOnboardingCompleted(completed: Boolean) {
         budgetDao.setOnboardingCompleted(completed)
     }
+
+    override suspend fun clearTransactionsByBudget(budgetId: Long) {
+        transactionDao.clearTransactionsByBudget(budgetId)
+    }
 }

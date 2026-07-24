@@ -11,4 +11,5 @@ interface BudgetRepository {
     fun getBudget(): Flow<BudgetEntity?>
     suspend fun saveBudget(budget: BudgetEntity)
     suspend fun setOnboardingCompleted(completed: Boolean)
+    suspend fun clearTransactionsByBudget(budgetId: Long)
 }
