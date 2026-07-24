@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.example.stipukha.R
 
 @Composable
-fun BalanceCard() {
+fun BalanceCard(balance: Long, initialAmount: Long, onEditClick: () -> Unit) {
     Text(
         text = stringResource(R.string.current_balance),
         color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
@@ -41,7 +41,7 @@ fun BalanceCard() {
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
         shape = RoundedCornerShape(20.dp),
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().clickable { onEditClick() }
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             Text(
@@ -59,7 +59,7 @@ fun BalanceCard() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "12 450  ₽",
+                    text = "${balance / 100} ₽",
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.tertiary
@@ -68,7 +68,7 @@ fun BalanceCard() {
                     modifier = Modifier
                         .size(42.dp)
                         .background(MaterialTheme.colorScheme.tertiary, CircleShape)
-                        .clickable { },
+                        .clickable { onEditClick() },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -80,8 +80,9 @@ fun BalanceCard() {
                 }
             }
 
+            val progress = if (initialAmount > 0) balance.toFloat() / initialAmount else 0f
             LinearProgressIndicator(
-                progress = { 0.7f },
+                progress = { progress.coerceIn(0f, 1f) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(6.dp)

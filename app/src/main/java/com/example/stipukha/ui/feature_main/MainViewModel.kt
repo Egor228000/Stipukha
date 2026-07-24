@@ -41,6 +41,7 @@ class MainViewModel(
                         balanceAll = data.budgetInfo?.totalAmountInCents ?: 0L,
                         days = data.budgetInfo?.remainingDays ?: 0,
                         dailyLimit = data.budgetInfo?.dailyLimitInCents ?: 0L,
+                        availableToday = data.budgetInfo?.availableTodayInCents ?: 0L,
                         isLoading = false
                     )
                 }

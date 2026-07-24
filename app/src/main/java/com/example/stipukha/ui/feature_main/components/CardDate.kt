@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.stipukha.R
 import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -48,25 +49,23 @@ fun CardDate(
                 fontWeight = FontWeight.W700
 
             )
-            val mouthInt = when (dateMouthOfWeek.monthValue) {
-                1 -> "Янв"
-                2 -> "Фев"
-                3 -> "Мар"
-                4 -> "Апр"
-                5 -> "Мая"
-                6 -> "Июн"
-                7 -> "Июл"
-                8 -> "Авг"
-                9 -> "Сен"
-                10 -> "Окт"
-                11 -> "Ноя"
-                12 -> "Дек"
-                else -> {}
+            val monthResId = when (dateMouthOfWeek.monthValue) {
+                1 -> R.string.jan
+                2 -> R.string.feb
+                3 -> R.string.mar
+                4 -> R.string.apr
+                5 -> R.string.may
+                6 -> R.string.jun
+                7 -> R.string.jul
+                8 -> R.string.aug
+                9 -> R.string.sep
+                10 -> R.string.oct
+                11 -> R.string.nov
+                12 -> R.string.dec
+                else -> R.string.other
             }
             Text(
-                "До ${dateMouthOfWeek.dayOfMonth} ${mouthInt}"
-
-
+                stringResource(R.string.until_date, dateMouthOfWeek.dayOfMonth, stringResource(monthResId))
             )
         }
     }

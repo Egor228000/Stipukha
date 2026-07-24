@@ -7,6 +7,7 @@ data class MainState(
     val balanceAll: Long = 0,
     val days: Int = 0,
     val dailyLimit: Long = 0,
+    val availableToday: Long = 0,
     val inputAmount: String = "0",
     val selectedCategory: Int = R.string.eat,
     val isOnboardingRequired: Boolean = false,

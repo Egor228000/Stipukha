@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.example.stipukha.R
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -39,7 +41,7 @@ fun CustomDatePickerDialog(
                 }
             ) {
                 Text(
-                    "Выбрать",
+                    stringResource(R.string.select),
                     color = MaterialTheme.colorScheme.tertiary
                 )
             }
@@ -47,7 +49,7 @@ fun CustomDatePickerDialog(
         dismissButton = {
             TextButton(onClick = onDismiss) {
                 Text(
-                    "Отмена",
+                    stringResource(R.string.cancel),
                     color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.5f)
                 )
             }

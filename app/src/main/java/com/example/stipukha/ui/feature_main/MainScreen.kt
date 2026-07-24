@@ -68,7 +68,7 @@ fun MainScreen(viewModel: MainViewModel) {
     ) {
         item {
             BalanceCard(
-                balance = state.dailyLimit / 100,
+                balance = state.availableToday / 100,
                 balanceAll = state.balance / 100,
                 days = state.days
             )
