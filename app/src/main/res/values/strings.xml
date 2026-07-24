@@ -20,7 +20,6 @@
     <string name="pick_other_date">Выбрать другую дату</string>
     <string name="lets_go">Погнали</string>
 
-
     <string name="current_balance">Текущий баланс</string>
     <string name="total_available">ВСЕГО ДОСТУПНО</string>
     <string name="balance_auto_update">Баланс обновляется автоматически после добавления расходов.</string>
