@@ -83,6 +83,7 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
                     selected = selectedIndex == 1,
                     onClick = {
                         selectedIndex = 1
+                        backStack.clear()
                         backStack.add(ScreenMain)
                     },
                     icon = { Icon(painter = painterResource(R.drawable.home), null) },
@@ -99,8 +100,8 @@ fun BottomBarNavigation(backStack: SnapshotStateList<NavKey>) {
                     selected = selectedIndex == 2,
                     onClick = {
                         selectedIndex = 2
+                        backStack.clear()
                         backStack.add(ScreenStats)
-
                     },
                     icon = { Icon(painter = painterResource(R.drawable.chart_bar), null) },
                     label = { Text(stringResource(R.string.statistics)) },

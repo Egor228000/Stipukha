@@ -22,10 +22,15 @@ import com.example.stipukha.data.repository.BudgetRepositoryImpl
 import com.example.stipukha.domain.usecase.AddTransactionUseCase
 import com.example.stipukha.domain.usecase.GetMainStateUseCase
 import com.example.stipukha.domain.usecase.SaveOnboardingUseCase
+import com.example.stipukha.domain.usecase.GetTransactionsUseCase
+import com.example.stipukha.domain.usecase.ResetBudgetUseCase
+import com.example.stipukha.domain.usecase.UpdateBudgetUseCase
 import com.example.stipukha.ui.feature_main.MainScreen
 import com.example.stipukha.ui.feature_main.MainViewModel
 import com.example.stipukha.ui.feature_stats.StatsScreen
+import com.example.stipukha.ui.feature_stats.StatsViewModel
 import com.example.stipukha.ui.feature_add.AddScreen
+import com.example.stipukha.ui.feature_add.AddViewModel
 import kotlinx.serialization.Serializable
 
 
@@ -57,6 +62,9 @@ fun NavDisplayNavigation(
     val getMainStateUseCase = GetMainStateUseCase(repository)
     val addTransactionUseCase = AddTransactionUseCase(repository)
     val saveOnboardingUseCase = SaveOnboardingUseCase(repository)
+    val getTransactionsUseCase = GetTransactionsUseCase(repository)
+    val resetBudgetUseCase = ResetBudgetUseCase(repository)
+    val updateBudgetUseCase = UpdateBudgetUseCase(repository)
 
     NavDisplay(
         modifier = Modifier.padding(paddingValues).padding(16.dp),
@@ -82,10 +90,26 @@ fun NavDisplayNavigation(
                 MainScreen(viewModel)
             }
             entry<ScreenStats> {
-                StatsScreen()
+                val viewModel: StatsViewModel = viewModel(
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return StatsViewModel(getTransactionsUseCase) as T
+                        }
+                    }
+                )
+                StatsScreen(viewModel)
             }
             entry<ScreenAdd> {
-                AddScreen(onSelectedIndexChange, backStack)
+                val viewModel: AddViewModel = viewModel(
+                    factory = object : ViewModelProvider.Factory {
+                        @Suppress("UNCHECKED_CAST")
+                        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                            return AddViewModel(getMainStateUseCase, resetBudgetUseCase, updateBudgetUseCase) as T
+                        }
+                    }
+                )
+                AddScreen(onSelectedIndexChange, backStack, viewModel)
             }
 
         },
