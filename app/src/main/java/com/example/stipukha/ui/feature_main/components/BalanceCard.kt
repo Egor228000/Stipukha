@@ -14,9 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.stipukha.R
 
 @Composable
 fun BalanceCard(
@@ -38,7 +40,7 @@ fun BalanceCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                "Доступно на сегодня",
+                stringResource(R.string.available_today),
                 color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
                 fontWeight = FontWeight.W500,
                 fontSize = 18.sp
@@ -47,7 +49,7 @@ fun BalanceCard(
             Spacer(modifier = Modifier.height(8.dp))
             // Счет
             Text(
-                text = "${balance} ₽",
+                text = "$balance ₽",
                 color = MaterialTheme.colorScheme.tertiary,
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 60.sp
@@ -69,7 +71,7 @@ fun BalanceCard(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        "Всего ${balanceAll} ₽ * Осталось: ${days} дн.",
+                        stringResource(R.string.total_info, balanceAll, days),
                         color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
                         fontWeight = FontWeight.W500,
                         fontSize = 16.sp
@@ -77,5 +79,6 @@ fun BalanceCard(
                 }
             }
         }
+
     }
 }
