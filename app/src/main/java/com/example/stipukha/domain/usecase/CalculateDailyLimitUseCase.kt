@@ -46,8 +46,10 @@ class CalculateDailyLimitUseCase(
                 budgetId = budgetId,
                 totalAmountInCents = initialAmountInCents,
                 dailyLimitInCents = dailyLimit,
+                availableTodayInCents = dailyLimit, // Simplification for this unused use case
                 remainingDays = remainingDays,
-                currentBalanceInCents = currentBalance
+                currentBalanceInCents = currentBalance,
+                endDateTimestamp = endDateTimestamp
             )
         }
     }
