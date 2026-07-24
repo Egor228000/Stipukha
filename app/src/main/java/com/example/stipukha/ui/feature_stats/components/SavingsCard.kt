@@ -17,9 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.stipukha.R
 
 @Composable
 fun SavingsCard(amount: String, trend: String) {
@@ -31,7 +33,11 @@ fun SavingsCard(amount: String, trend: String) {
         Column(
             modifier = Modifier.padding(20.dp)
         ) {
-            Text(text = "Сэкономлено", fontSize = 16.sp, color = MaterialTheme.colorScheme.tertiary)
+            Text(
+                text = stringResource(R.string.saved),
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.tertiary
+            )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = amount, fontSize = 36.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.tertiary)
             Spacer(modifier = Modifier.height(8.dp))

@@ -1,23 +1,25 @@
 package com.example.stipukha.ui.feature_stats
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.stipukha.ui.feature_stats.components.ExpenseStructureCard
 import com.example.stipukha.ui.feature_stats.components.PeriodSelector
 import com.example.stipukha.ui.feature_stats.components.QuickStatsCard
 import com.example.stipukha.ui.feature_stats.components.SavingsCard
+import com.example.stipukha.ui.feature_stats.mvi.StatsIntent
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun StatsScreen() {
-    var selectedPeriod by remember { mutableStateOf("Месяц") }
+fun StatsScreen(viewModel: StatsViewModel) {
+    val state by viewModel.state.collectAsState()
 
     LazyColumn(
         modifier = Modifier
@@ -27,31 +29,27 @@ fun StatsScreen() {
 
         item {
             PeriodSelector(
-                selectedPeriod = selectedPeriod,
-                onPeriodSelected = { selectedPeriod = it }
+                selectedPeriod = state.selectedPeriod,
+                onPeriodSelected = { viewModel.handleIntent(StatsIntent.SelectPeriod(it)) }
             )
         }
 
         item {
-            SavingsCard(amount = "+4,200 ₽", trend = "+15% к прошлому")
+            SavingsCard(amount = state.savingsAmount, trend = state.savingsTrend)
         }
 
         item {
-            QuickStatsCard()
+            QuickStatsCard(
+                averageCheck = state.averageCheck,
+                economicalDay = state.economicalDay,
+                peakExpensesDay = state.peakExpensesDay
+            )
         }
         item {
-            ExpenseStructureCard()
-
+            ExpenseStructureCard(
+                expensesByCategory = state.expensesByCategory,
+                totalExpenses = state.totalExpenses
+            )
         }
     }
 }
-
-
-
-
-
-
-
-
-
-

@@ -12,11 +12,16 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.stipukha.R
 
 @Composable
-fun QuickStatsCard() {
+fun QuickStatsCard(
+    averageCheck: String,
+    economicalDay: String,
+    peakExpensesDay: String
+) {
     Card(
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.onPrimary),
@@ -25,8 +30,8 @@ fun QuickStatsCard() {
         Column(modifier = Modifier.padding(16.dp)) {
             QuickStatsRow(
                 icon = R.drawable.receipt,
-                title = "Средний чек",
-                value = "420 ₽"
+                title = stringResource(R.string.average_check),
+                value = averageCheck
             )
             HorizontalDivider(
                 modifier = Modifier.padding(vertical = 12.dp),
@@ -35,11 +40,15 @@ fun QuickStatsCard() {
             )
             QuickStatsRow(
                 icon = R.drawable.chart_bar,
-                title = "Экономный день",
-                value = "Вторник"
+                title = stringResource(R.string.economical_day),
+                value = economicalDay
             )
             Divider(modifier = Modifier.padding(vertical = 12.dp))
-            QuickStatsRow(icon = R.drawable.calendar_month, title = "Пик расходов", value = "Суббота")
+            QuickStatsRow(
+                icon = R.drawable.calendar_month,
+                title = stringResource(R.string.peak_expenses),
+                value = peakExpensesDay
+            )
         }
     }
 }
