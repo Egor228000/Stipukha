@@ -35,6 +35,38 @@
     <string name="reset_budget">Сбросить бюджет</string>
     <string name="period_do">Период до</string>
 
+    <string name="available_today">Доступно на сегодня</string>
+    <string name="total_info">Всего %1$s ₽ * Осталось: %2$d дн.</string>
+    <string name="until_date">До %1$d %2$s</string>
+    <string name="select">Выбрать</string>
+    <string name="cancel">Отмена</string>
+    <string name="delete">Удалить</string>
+    <string name="edit">Редактировать</string>
+    <string name="edit_budget_title">Редактирование бюджета</string>
+    <string name="total_amount_label">Общая сумма</string>
+    <string name="end_date_label">Дата окончания</string>
+    <string name="save">Сохранить</string>
+    <string name="expense_structure">Структура расходов</string>
+    <string name="week">Неделя</string>
+    <string name="month">Месяц</string>
+    <string name="average_check">Средний чек</string>
+    <string name="economical_day">Экономный день</string>
+    <string name="peak_expenses">Пик расходов</string>
+    <string name="saved">Сэкономлено</string>
+    <string name="until_prefix">До %1$s</string>
 
-
+    <string name="jan">Янв</string>
+    <string name="feb">Фев</string>
+    <string name="mar">Мар</string>
+    <string name="apr">Апр</string>
+    <string name="may">Мая</string>
+    <string name="jun">Июн</string>
+    <string name="jul">Июл</string>
+    <string name="aug">Авг</string>
+    <string name="sep">Сен</string>
+    <string name="oct">Окт</string>
+    <string name="nov">Ноя</string>
+    <string name="dec">Дек</string>
+    <string name="reset_desc">Сбросить</string>
 </resources>
+
