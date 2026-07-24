@@ -41,7 +41,7 @@ fun BudgetProtectionInfo() {
         ) {
             Icon(
                 painter = painterResource(R.drawable.shield_check),
-                contentDescription = "Защита",
+                contentDescription = stringResource(R.string.protection),
                 tint = MaterialTheme.colorScheme.tertiary
             )
         }

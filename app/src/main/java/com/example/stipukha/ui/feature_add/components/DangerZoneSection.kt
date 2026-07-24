@@ -27,7 +27,7 @@ import com.example.stipukha.R
 
 
 @Composable
-fun DangerZoneSection() {
+fun DangerZoneSection(onResetClick: () -> Unit) {
     Text(
         text = stringResource(R.string.danger_zone),
         color = Color(0xFFE53935),
@@ -44,7 +44,7 @@ fun DangerZoneSection() {
     )
 
     OutlinedButton(
-        onClick = {  },
+        onClick = onResetClick,
         modifier = Modifier
             .fillMaxWidth()
             .height(54.dp),
@@ -58,10 +58,11 @@ fun DangerZoneSection() {
         ) {
             Icon(
                 painter = painterResource(R.drawable.trash_x),
-                contentDescription = "Сброс"
+                contentDescription = stringResource(R.string.reset_desc)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(stringResource(R.string.reset_budget), fontSize = 16.sp, fontWeight = FontWeight.Medium)
         }
+
     }
 }

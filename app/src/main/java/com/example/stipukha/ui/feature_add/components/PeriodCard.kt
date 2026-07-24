@@ -1,5 +1,7 @@
 package com.example.stipukha.ui.feature_add.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,9 +30,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.stipukha.R
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PeriodCard() {
+fun PeriodCard(endDateTimestamp: Long, onEditClick: () -> Unit) {
+    val formattedDate = if (endDateTimestamp > 0) {
+        Instant.ofEpochMilli(endDateTimestamp)
+            .atZone(ZoneId.systemDefault())
+            .toLocalDate()
+            .format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))
+    } else {
+        "—"
+    }
+
     Text(
         text = stringResource(R.string.period_do),
         color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f),
@@ -62,13 +77,14 @@ fun PeriodCard() {
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.calendar_month),
-                        contentDescription = "Календарь",
+                        contentDescription = stringResource(R.string.calendar),
                         tint = MaterialTheme.colorScheme.tertiary
                     )
                 }
+
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    text = "25 сентября, 2024",
+                    text = formattedDate,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
                     color = MaterialTheme.colorScheme.tertiary
@@ -76,7 +92,7 @@ fun PeriodCard() {
             }
 
             OutlinedButton(
-                onClick = {  },
+                onClick = onEditClick,
                 shape = RoundedCornerShape(50),
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.tertiary),
                 border = BorderStroke(
