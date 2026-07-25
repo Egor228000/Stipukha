@@ -124,8 +124,8 @@ fun MainScreen(viewModel: MainViewModel) {
                         .height(60.dp)
                         .fillMaxWidth(0.48f)
                         .align(Alignment.BottomStart),
-                    colorsButton = MaterialTheme.colorScheme.onPrimary,
-                    colorText = MaterialTheme.colorScheme.tertiary,
+                    colorsButton = MaterialTheme.colorScheme.secondary,
+                    colorText = androidx.compose.ui.graphics.Color.White,
                     onClick = { viewModel.handleIntent(MainIntent.ReplenishBalance) }
                 )
                 ButtonIntent(
@@ -134,8 +134,8 @@ fun MainScreen(viewModel: MainViewModel) {
                         .height(60.dp)
                         .fillMaxWidth(0.48f)
                         .align(Alignment.BottomEnd),
-                    colorsButton = MaterialTheme.colorScheme.tertiary,
-                    colorText = MaterialTheme.colorScheme.onPrimary,
+                    colorsButton = MaterialTheme.colorScheme.error,
+                    colorText = androidx.compose.ui.graphics.Color.White,
                     onClick = { viewModel.handleIntent(MainIntent.AddExpense) }
                 )
             }

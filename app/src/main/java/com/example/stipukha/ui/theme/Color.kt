@@ -2,10 +2,15 @@ package com.example.stipukha.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val IndigoPrimary = Color(0xFF6366F1)
+val EmeraldSuccess = Color(0xFF10B981)
+val RoseError = Color(0xFFF43F5E)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val Slate900 = Color(0xFF0F172A)
+val Slate800 = Color(0xFF1E293B)
+val Slate50 = Color(0xFFF8FAFC)
+val White = Color(0xFFFFFFFF)
+
+val Slate300 = Color(0xFFCBD5E1)
+val Slate700 = Color(0xFF334155)
+val Slate950 = Color(0xFF020617)

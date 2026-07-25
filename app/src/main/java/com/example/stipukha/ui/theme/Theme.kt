@@ -1,6 +1,5 @@
 package com.example.stipukha.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -9,20 +8,30 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(26,28,29), // Фон тест в кнопке // rfhnjxrb
-    onPrimary = Color(17,19,20), // bottom bar
-    tertiary = Color(245,245,247), // Текст
-
+    primary = Slate900,         // Screen background (app uses primary as background)
+    onPrimary = Slate800,       // Cards and bottom bar background
+    secondary = EmeraldSuccess,  // Positive actions
+    tertiary = White,           // Main text
+    error = RoseError,          // Negative actions
+    background = Slate900,
+    surface = Slate800,
+    onBackground = White,
+    onSurface = Slate300
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Color(229,229,231), // Фон тест в кнопке //
-    onPrimary = Color(245,245,247), // bottom bar карточка
-    tertiary = Color(0,1,1), //Текст
+    primary = Slate50,          // Screen background
+    onPrimary = White,          // Cards and bottom bar background
+    secondary = EmeraldSuccess,  // Positive actions
+    tertiary = Slate950,        // Main text
+    error = RoseError,          // Negative actions
+    background = Slate50,
+    surface = White,
+    onBackground = Slate950,
+    onSurface = Slate700
 )
 
 @Composable
