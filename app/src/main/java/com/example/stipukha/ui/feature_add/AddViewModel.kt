@@ -51,8 +51,6 @@ class AddViewModel(
                     resetBudgetUseCase()
                 }
             }
-            is AddIntent.UpdateBalance -> {
-            }
             is AddIntent.UpdateBudget -> {
                 viewModelScope.launch {
                     updateBudgetUseCase(intent.amountInCents, intent.endDateTimestamp)
